@@ -5,4 +5,5 @@ package com.cyb.crm;
  * @create 2022-01-05 15:26
  */
 public class hello {
+    private String hello;
 }
