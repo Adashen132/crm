@@ -6,4 +6,5 @@ package com.cyb.crm;
  */
 public class hello {
     private String hello;
+    private String hello2;
 }
