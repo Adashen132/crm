@@ -19,4 +19,13 @@ public class ClueServiceImpl implements ClueService {
 
     private ClueDao clueDao = SqlSessionUtil.getSqlSession().getMapper(ClueDao.class);
 
+    @Override
+    public Boolean save(Clue c) {
+        boolean flag = true;
+        int count = clueDao.save(c);
+        if(count != 1){
+            flag = false;
+        }
+        return  flag;
+    }
 }

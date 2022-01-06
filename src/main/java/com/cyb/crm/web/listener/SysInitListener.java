@@ -46,7 +46,7 @@ public class SysInitListener implements ServletContextListener {
         //将map解析为上下文域对象中保存的键值对
         Set<String> set = map.keySet();
         for(String key:set){
-            application.setAttribute("key",map.get(key));//根据不同类型，分门别类的保存
+            application.setAttribute(key,map.get(key));//根据不同类型，分门别类的保存
         }
         System.out.println("服务器缓存处理数据字典结束！");
     }
