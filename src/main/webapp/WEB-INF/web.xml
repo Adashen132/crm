@@ -40,6 +40,10 @@
         <url-pattern>*.jsp</url-pattern><!--过滤前端-->
     </filter-mapping>
 
+    <listener>
+        <listener-class>com.cyb.crm.web.listener.SysInitListener</listener-class>
+    </listener>
+
     <!--用户控制器-->
     <servlet>
         <servlet-name>UserController</servlet-name>
