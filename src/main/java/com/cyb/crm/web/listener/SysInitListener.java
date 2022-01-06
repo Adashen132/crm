@@ -26,7 +26,8 @@ import java.util.Set;
 public class SysInitListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        System.out.println("上下文域对象ServletContextEvent创建了");
+//        System.out.println("上下文域对象ServletContextEvent创建了");
+        System.out.println("服务器缓存处理数据字典开始！");
         ServletContext application = event.getServletContext();
         //取数据字典
         DicService ds = (DicService) ServiceFactory.getService(new DicServiceImpl());//在settings的service中
@@ -47,6 +48,6 @@ public class SysInitListener implements ServletContextListener {
         for(String key:set){
             application.setAttribute("key",map.get(key));//根据不同类型，分门别类的保存
         }
-        System.out.println("服务器缓存处理数据字典结束");
+        System.out.println("服务器缓存处理数据字典结束！");
     }
 }
