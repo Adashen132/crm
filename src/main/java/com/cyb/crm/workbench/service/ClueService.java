@@ -9,4 +9,6 @@ import com.cyb.crm.workbench.domain.Tran;
 public interface ClueService {
 
     Boolean save(Clue c);
+
+    Clue detail(String id);
 }

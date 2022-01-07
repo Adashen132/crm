@@ -123,7 +123,7 @@ request.getServerPort() + request.getContextPath() + "/";
 								<select class="form-control" id="create-appellation">
 								  <option></option>
 									<c:forEach items="${appellationList}" var="a">
-										<option value="a.value">${a.text}</option>
+										<option value="${a.value}">${a.text}</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -177,7 +177,7 @@ request.getServerPort() + request.getContextPath() + "/";
 								<select class="form-control" id="create-source">
 								  <option></option>
 									<c:forEach items="${sourceList}" var="s">
-										<option value="s.value">${s.text}</option>
+										<option value="${s.value}">${s.text}</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -511,7 +511,7 @@ request.getServerPort() + request.getContextPath() + "/";
 					<tbody>
 						<tr>
 							<td><input type="checkbox" /></td>
-							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/clue/detail.jsp';">李四先生</a></td>
+							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/clue/detail.do?id=8b05ef40395e4a118654c7c4bdb941cf';">马云先生</a></td>
 							<td>动力节点</td>
 							<td>010-84846003</td>
 							<td>12345678901</td>

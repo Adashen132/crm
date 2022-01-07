@@ -29,7 +29,6 @@ import java.util.Map;
  * 因而Service层应该既调用DAO层的接口，又要提供接口给Controller层的类来进行调用，
  * 它刚好处于一个中间层的位置。每个模型都有一个Service接口，每个接口分别封装各自的业务处理方法
  */
-
 /**
  * @author ccc
  * @create 2021-12-29 11:34
@@ -45,8 +44,31 @@ public class ClueController extends HttpServlet {
             getUserList(request, response);
         } else if ("/workbench/clue/save.do".equals(path)) {
             save(request, response);
+        }else if ("/workbench/clue/detail.do".equals(path)) {
+            detail(request, response);
+        }else if ("/workbench/clue/getActivityListByClueId.do".equals(path)) {
+            getActivityListByClueId(request, response);
         }
     }
+
+    private void getActivityListByClueId(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("根据线索id查询关联的市场活动列表");
+        String clueId = request.getParameter("clueId");
+        ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        List<Activity> aList = as.getActivityListByClueId(clueId);
+        PrintJson.printJsonObj(response,aList);
+    }
+
+    private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        System.out.println("跳转到线索详细信息页");
+        String id = request.getParameter("id");
+        ClueService cs = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        Clue c = cs.detail(id);
+        request.setAttribute("c",c);
+        request.getRequestDispatcher("/workbench/clue/detail.jsp").forward(request,response);
+    }
+
+
     private void save(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("执行线索的添加操作");
         String id = UUIDUtil.getUUID();
