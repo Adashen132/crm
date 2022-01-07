@@ -80,7 +80,7 @@ request.getServerPort() + request.getContextPath() + "/";
 					}else{
 						alert("添加线索失败！");
 					}
-									}
+				}
 			})
 		})
 
@@ -90,7 +90,6 @@ request.getServerPort() + request.getContextPath() + "/";
 </script>
 </head>
 <body>
-
 	<!-- 创建线索的模态窗口 -->
 	<div class="modal fade" id="createClueModal" role="dialog">
 		<div class="modal-dialog" role="document" style="width: 90%;">

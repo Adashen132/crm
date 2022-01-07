@@ -525,7 +525,7 @@
                 <thead>
                 <tr style="color: #B3B3B3;">
                     <td><input type="checkbox" id="qx"/></td>
-                    <td>名称</td>
+                    <td>名称</td>ma
                     <td>所有者</td>
                     <td>开始日期</td>
                     <td>结束日期</td>

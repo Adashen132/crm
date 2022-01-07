@@ -48,15 +48,26 @@ public class ClueController extends HttpServlet {
             detail(request, response);
         }else if ("/workbench/clue/getActivityListByClueId.do".equals(path)) {
             getActivityListByClueId(request, response);
+        }else if ("/workbench/clue/unbund.do".equals(path)) {
+            unbund(request, response);
         }
     }
 
-    private void getActivityListByClueId(HttpServletRequest request, HttpServletResponse response) {
+    private void unbund(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行接触关联操作");
+        String id = request.getParameter("id");
+        ClueService cs = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        boolean flag = cs.unbund(id);
+        PrintJson.printJsonFlag(response,flag);
+
+    }
+
+    private void getActivityListByClueId(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         System.out.println("根据线索id查询关联的市场活动列表");
         String clueId = request.getParameter("clueId");
         ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
         List<Activity> aList = as.getActivityListByClueId(clueId);
-        PrintJson.printJsonObj(response,aList);
+        PrintJson.printJsonObj(response, aList);
     }
 
     private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
