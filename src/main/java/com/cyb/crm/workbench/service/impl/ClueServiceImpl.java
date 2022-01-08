@@ -2,6 +2,7 @@ package com.cyb.crm.workbench.service.impl;
 
 import com.cyb.crm.settings.dao.UserDao;
 import com.cyb.crm.utils.SqlSessionUtil;
+import com.cyb.crm.utils.UUIDUtil;
 import com.cyb.crm.workbench.dao.ActivityDao;
 import com.cyb.crm.workbench.dao.ActivityRemarkDao;
 import com.cyb.crm.workbench.dao.ClueActivityRelationDao;
@@ -47,5 +48,24 @@ public class ClueServiceImpl implements ClueService {
         }
         return  flag;
 
+    }
+
+    @Override
+    public boolean bund(String cid, String[] aids) {
+
+        boolean flag = true;
+        for(String aid:aids){
+            //取得买一个aid和cid做关联
+            ClueActivityRelation car = new ClueActivityRelation();
+            car.setId(UUIDUtil.getUUID());
+            car.setClueId(cid);
+            car.setActivityId(aid);
+            //添加关联关系表中的记录
+            int count = clueActivityRelationDao.bund(car);
+            if(count != 1){
+                flag = false;
+            }
+        }
+        return flag;
     }
 }

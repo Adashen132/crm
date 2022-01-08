@@ -55,8 +55,72 @@ request.getServerPort() + request.getContextPath() + "/";
 
 		//页面加载完毕后，取出关联的市场活动能够信息列表
 		showActivityList();
-	});
 
+		//为关联市场活动模态窗口中 搜索框 绑定事件，通过触发回车，查询并展开所需市场活动列表
+		$("#aname").keydown(function (event){
+			if(event.keyCode == 13){
+				// alert("查询并展现市场活动列表");
+				$.ajax({
+					url:"workbench/clue/getActivityListByNameAndNotByClueId.do",
+					data:{
+						"aname":$.trim($("#aname").val()),
+						"clueId":"${c.id}"
+					},
+					type:"get",
+					dataType:"json",
+					success:function (data){
+						//市场活动数组
+						var html = "";
+						$.each(data,function (i,n){
+						html+='<tr>';
+                        html+='<td><input type="checkbox" name="xz" value="'+n.id+'"/></td>';
+                        html+='<td>'+n.name+'</td>';
+                        html+='<td>'+n.startDate+'</td>';
+                        html+='<td>'+n.endDate+'</td>';
+                        html+='<td>'+n.owner+'</td>';
+                    	html+='</tr>';
+						})
+						$("#activitySearchBody").html(html);
+					}
+				})
+				//展现完列表后，记得将模态窗口默认的回车行为禁用掉
+				return false;
+			}
+		})
+		//为关联按钮绑定事件，执行关联表的添加操作
+		$("#bundBtn").click(function () {
+			var $xz = $("input[name=xz]:checked");
+			if($xz.length==0){
+				alert("请选择需要关联的市场活动");
+				//1条或者多条
+			}else{
+				//workbench/clue/bund.do?cid=xxx&aid=xxx&aid=xxx&aid=xxx
+				var param = "cid=${c.id}&";
+				for(var i=0;i<$xz.length;i++){
+					param += "aid="+$($xz[i]).val();
+					if(i<$xz.length-1){
+						param += "&";
+					}
+				}
+				$.ajax({
+					url : "workbench/clue/bund.do",
+					data : param,
+					type : "post",
+					dataType : "json",
+					success : function (data) {
+						if(data.success){
+							showActivityList();
+							//清除搜索框中的信息  复选框中的√干掉 清空activitySearchBody中的内容
+							//关闭模态窗口
+							$("#bundModal").modal("hide");
+						}else{
+							alert("关联市场活动失败");
+						}
+					}
+				})
+			}
+		})
+	});
 
 	function showActivityList(){
 		$.ajax({
@@ -117,7 +181,7 @@ request.getServerPort() + request.getContextPath() + "/";
 				<div class="btn-group" style="position: relative; top: 18%; left: 8px;">
 					<form class="form-inline" role="form">
 						<div class="form-group has-feedback">
-							<input type="text" class="form-control" id="aname" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询123">
+							<input type="text" class="form-control" id="aname" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
 							<span class="glyphicon glyphicon-search form-control-feedback"></span>
 						</div>
 					</form>

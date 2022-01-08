@@ -86,6 +86,9 @@
         <url-pattern>/workbench/clue/detail.do</url-pattern>
         <url-pattern>/workbench/clue/getActivityListByClueId.do</url-pattern>
         <url-pattern>/workbench/clue/unbund.do</url-pattern>
+        <!--只需把没有关联的名称列出来即可-->
+        <url-pattern>/workbench/clue/getActivityListByNameAndNotByClueId.do</url-pattern>
+        <url-pattern>/workbench/clue/bund.do</url-pattern>
 
 
     </servlet-mapping>
