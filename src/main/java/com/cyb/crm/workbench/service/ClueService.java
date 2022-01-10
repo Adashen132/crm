@@ -15,4 +15,6 @@ public interface ClueService {
     boolean unbund(String id);
 
     boolean bund(String cid, String[] aids);
+
+    boolean convert();
 }

@@ -11,6 +11,7 @@ import com.cyb.crm.vo.PaginationVO;
 import com.cyb.crm.workbench.domain.Activity;
 import com.cyb.crm.workbench.domain.ActivityRemark;
 import com.cyb.crm.workbench.domain.Clue;
+import com.cyb.crm.workbench.domain.Tran;
 import com.cyb.crm.workbench.service.ActivityService;
 import com.cyb.crm.workbench.service.ClueService;
 import com.cyb.crm.workbench.service.impl.ActivityServiceImpl;
@@ -54,7 +55,54 @@ public class ClueController extends HttpServlet {
             getActivityListByNameAndNotByClueId(request, response);
         }else if ("/workbench/clue/bund.do".equals(path)) {
             bund(request, response);
+        }else if ("/workbench/clue/getActivityListByName.do".equals(path)) {
+            getActivityListByName(request, response);
+        }else if ("/workbench/clue/convert.do".equals(path)) {
+            convert(request, response);
         }
+    }
+    private void convert(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        System.out.println("执行线索转换的操作");
+        String clueId = request.getParameter("clueId");
+        //接收是否需要创建交易的标记
+        String flag = request.getParameter("flag");
+
+        Tran t = null;
+        if("a".equals(flag)){//如果需要创建交易
+            t = new Tran();
+            //接收交易表单中的参数
+            String money = request.getParameter("money");
+            String name = request.getParameter("name");
+            String expectedDate = request.getParameter("expectedDate");
+            String stage = request.getParameter("stage");
+            String activityId = request.getParameter("activityId");
+            String id = UUIDUtil.getUUID();
+            String createTime = DateTimeUtil.getSysTime();
+            String createBy = ((User)request.getSession().getAttribute("user")).getName();
+
+            t.setId(id);
+            t.setMoney(money);
+            t.setName(name);
+            t.setExpectedDate(expectedDate);
+            t.setStage(stage);
+            t.setActivityId(activityId);
+            t.setCreateBy(createBy);
+            t.setCreateTime(createTime);
+        }
+        ClueService cs = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        boolean flag1 = cs.convert();
+        if(flag1){
+            response.sendRedirect(request.getContextPath()+"/workbench/clue/index.jsp");
+        }
+
+    }
+        private void getActivityListByName(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("查询市场活动列表（根据名称模糊查）");
+        String aname = request.getParameter("aname");
+        ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        List<Activity> aList = as.getActivityListByName(aname);
+        PrintJson.printJsonObj(response,aList);
+
     }
 
     private void bund(HttpServletRequest request, HttpServletResponse response) {

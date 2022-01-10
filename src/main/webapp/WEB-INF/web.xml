@@ -89,6 +89,8 @@
         <!--只需把没有关联的名称列出来即可-->
         <url-pattern>/workbench/clue/getActivityListByNameAndNotByClueId.do</url-pattern>
         <url-pattern>/workbench/clue/bund.do</url-pattern>
+        <url-pattern>/workbench/clue/getActivityListByName.do</url-pattern>
+        <url-pattern>/workbench/clue/convert.do</url-pattern>
 
 
     </servlet-mapping>

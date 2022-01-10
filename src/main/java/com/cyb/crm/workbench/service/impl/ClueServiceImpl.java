@@ -3,10 +3,7 @@ package com.cyb.crm.workbench.service.impl;
 import com.cyb.crm.settings.dao.UserDao;
 import com.cyb.crm.utils.SqlSessionUtil;
 import com.cyb.crm.utils.UUIDUtil;
-import com.cyb.crm.workbench.dao.ActivityDao;
-import com.cyb.crm.workbench.dao.ActivityRemarkDao;
-import com.cyb.crm.workbench.dao.ClueActivityRelationDao;
-import com.cyb.crm.workbench.dao.ClueDao;
+import com.cyb.crm.workbench.dao.*;
 import com.cyb.crm.workbench.domain.Clue;
 import com.cyb.crm.workbench.domain.ClueActivityRelation;
 import com.cyb.crm.workbench.service.ClueService;
@@ -20,8 +17,23 @@ public class ClueServiceImpl implements ClueService {
 //    private ActivityRemarkDao activityRemarkDao = SqlSessionUtil.getSqlSession().getMapper(ActivityRemarkDao.class);
 //    private UserDao userDao = SqlSessionUtil.getSqlSession().getMapper(UserDao.class);
 
+    //线索相关表
     private ClueDao clueDao = SqlSessionUtil.getSqlSession().getMapper(ClueDao.class);
     private ClueActivityRelationDao clueActivityRelationDao = SqlSessionUtil.getSqlSession().getMapper(ClueActivityRelationDao.class);
+    private ClueRemarkDao clueRemarkDao = SqlSessionUtil.getSqlSession().getMapper(ClueRemarkDao.class);
+
+    //客户相关表
+    private CustomerDao customerDao = SqlSessionUtil.getSqlSession().getMapper(CustomerDao.class);
+    private CustomerRemarkDao customerRemarkDao = SqlSessionUtil.getSqlSession().getMapper(CustomerRemarkDao.class);
+
+    //联系人相关表
+    private ContactsDao contactsDao = SqlSessionUtil.getSqlSession().getMapper(ContactsDao.class);
+    private ContactsRemarkDao contactsRemarkDao = SqlSessionUtil.getSqlSession().getMapper(ContactsRemarkDao.class);
+    private ContactsActivityRelationDao contactsActivityRelationDao = SqlSessionUtil.getSqlSession().getMapper(ContactsActivityRelationDao.class);
+
+    //交易相关表
+    private TranDao tranDao = SqlSessionUtil.getSqlSession().getMapper(TranDao.class);
+    private TranHistoryDao tranHistoryDao = SqlSessionUtil.getSqlSession().getMapper(TranHistoryDao.class);
 
     @Override
     public Boolean save(Clue c) {
@@ -66,6 +78,13 @@ public class ClueServiceImpl implements ClueService {
                 flag = false;
             }
         }
+        return flag;
+    }
+
+    @Override
+    public boolean convert() {
+        boolean flag = true;
+
         return flag;
     }
 }
