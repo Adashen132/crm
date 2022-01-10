@@ -83,18 +83,21 @@ public class ClueServiceImpl implements ClueService {
         return flag;
     }
 
-    @Override
     public boolean convert(String clueId, Tran t, String createBy) {
+
         String createTime = DateTimeUtil.getSysTime();
+
         boolean flag = true;
 
         //(1)通过线索id获取线索对象（线索对象当中封装了线索的信息）
         Clue c = clueDao.getById(clueId);
+
         //(2) 通过线索对象提取客户信息，当该客户不存在的时候，新建客户（根据公司的名称精确匹配，判断该客户是否存在！）
         String company = c.getCompany();
         Customer cus = customerDao.getCustomerByName(company);
         //如果cus为null，说明以前没有这个客户，需要新建一个
         if(cus==null){
+
             cus = new Customer();
             cus.setId(UUIDUtil.getUUID());
             cus.setAddress(c.getAddress());
@@ -107,16 +110,19 @@ public class ClueServiceImpl implements ClueService {
             cus.setCreateTime(createTime);
             cus.setCreateBy(createBy);
             cus.setContactSummary(c.getContactSummary());
-        }
-        //添加客户
-        int count1 = customerDao.save(cus);
-        if(count1!=1){
-            flag = false;
+            //添加客户
+            int count1 = customerDao.save(cus);
+            if(count1!=1){
+                flag = false;
+            }
+
+
         }
         //--------------------------------------------------------------------------
         //经过第二步处理后，客户的信息我们已经拥有了，将来在处理其他表的时候，如果要使用到客户的id
         //直接使用cus.getId();
         //--------------------------------------------------------------------------
+
         //(3)通过线索对象提取联系人信息，保存联系人
         Contacts con = new Contacts();
         con.setId(UUIDUtil.getUUID());
@@ -139,17 +145,21 @@ public class ClueServiceImpl implements ClueService {
         if(count2!=1){
             flag = false;
         }
+
         //--------------------------------------------------------------------------
         //经过第三步处理后，联系人的信息我们已经拥有了，将来在处理其他表的时候，如果要使用到联系人的id
         //直接使用con.getId();
         //--------------------------------------------------------------------------
+
         //(4) 线索备注转换到客户备注以及联系人备注
         //查询出与该线索关联的备注信息列表
         List<ClueRemark> clueRemarkList = clueRemarkDao.getListByClueId(clueId);
         //取出每一条线索的备注
         for(ClueRemark clueRemark : clueRemarkList){
+
             //取出备注信息（主要转换到客户备注和联系人备注的就是这个备注信息）
             String noteContent = clueRemark.getNoteContent();
+
             //创建客户备注对象，添加客户备注
             CustomerRemark customerRemark = new CustomerRemark();
             customerRemark.setId(UUIDUtil.getUUID());
@@ -162,6 +172,7 @@ public class ClueServiceImpl implements ClueService {
             if(count3!=1){
                 flag = false;
             }
+
             //创建联系人备注对象，添加联系人
             ContactsRemark contactsRemark = new ContactsRemark();
             contactsRemark.setId(UUIDUtil.getUUID());
@@ -175,11 +186,13 @@ public class ClueServiceImpl implements ClueService {
                 flag = false;
             }
         }
+
         //(5) “线索和市场活动”的关系转换到“联系人和市场活动”的关系
         //查询出与该条线索关联的市场活动，查询与市场活动的关联关系列表
         List<ClueActivityRelation> clueActivityRelationList = clueActivityRelationDao.getListByClueId(clueId);
         //遍历出每一条与市场活动关联的关联关系记录
         for(ClueActivityRelation clueActivityRelation : clueActivityRelationList){
+
             //从每一条遍历出来的记录中取出关联的市场活动id
             String activityId = clueActivityRelation.getActivityId();
 
@@ -193,7 +206,10 @@ public class ClueServiceImpl implements ClueService {
             if(count5!=1){
                 flag = false;
             }
+
+
         }
+
         //(6)如果有创建交易需求，创建一条交易
         if(t!=null){
             /*
@@ -229,6 +245,7 @@ public class ClueServiceImpl implements ClueService {
                 flag = false;
             }
         }
+
         //(8)删除线索备注
         for(ClueRemark clueRemark : clueRemarkList){
 
@@ -238,14 +255,19 @@ public class ClueServiceImpl implements ClueService {
             }
 
         }
+
         //(9) 删除线索和市场活动的关系
         for(ClueActivityRelation clueActivityRelation : clueActivityRelationList){
 
             int count9 = clueActivityRelationDao.delete(clueActivityRelation);
             if(count9!=1){
+
                 flag = false;
+
             }
+
         }
+
         //(10) 删除线索
         int count10 = clueDao.delete(clueId);
         if(count10!=1){
@@ -254,6 +276,5 @@ public class ClueServiceImpl implements ClueService {
 
         return flag;
     }
-
 
 }
