@@ -16,5 +16,5 @@ public interface ClueService {
 
     boolean bund(String cid, String[] aids);
 
-    boolean convert();
+    boolean convert(String clueId, Tran t, String createBy);
 }
