@@ -509,14 +509,9 @@
 
                         所以未来的实际项目开发，对于触发模态窗口的操作，一定不要写死在元素当中，应该由我们自己写js代码来操作
                     -->
-                <button type="button" class="btn btn-primary" id="addBtn"><span class="glyphicon glyphicon-plus"></span>创建
-                </button>
-                <button type="button" class="btn btn-default" id="editBtn"><span
-                        class="glyphicon glyphicon-pencil"></span> 修改
-                </button>
-                <button type="button" class="btn btn-danger" id="deleteBtn"><span
-                        class="glyphicon glyphicon-minus"></span> 删除
-                </button>
+                <button type="button" class="btn btn-primary" id="addBtn"><span class="glyphicon glyphicon-plus"></span>创建</button>
+                <button type="button" class="btn btn-default" id="editBtn"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
+                <button type="button" class="btn btn-danger" id="deleteBtn"><span class="glyphicon glyphicon-minus"></span> 删除</button>
             </div>
 
         </div>
