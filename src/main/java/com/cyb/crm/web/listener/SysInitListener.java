@@ -47,6 +47,7 @@ public class SysInitListener implements ServletContextListener {
             application.setAttribute(key,map.get(key));//根据不同类型，分门别类的保存
         }
         System.out.println("服务器缓存处理数据字典结束！");
+        ////////////////////////////////////////////////////////////////////////////
         //数据字典处理完毕后，处理Stage2Possibility.properties文件
         /*
 

@@ -11,4 +11,7 @@ import java.util.Map;
  */
 public interface TranService {
 
+    boolean save(Tran t, String customerName);
+
+    Tran detail(String id);
 }
