@@ -14,4 +14,6 @@ public interface TranService {
     boolean save(Tran t, String customerName);
 
     Tran detail(String id);
+
+    List<TranHistory> getHistoryListByTranId(String tranId);
 }

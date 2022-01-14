@@ -11,6 +11,8 @@ import com.cyb.crm.workbench.domain.Tran;
 import com.cyb.crm.workbench.domain.TranHistory;
 import com.cyb.crm.workbench.service.TranService;
 
+import java.util.List;
+
 /**
  * @author ccc
  * @create 2022-01-11 9:59
@@ -80,5 +82,11 @@ public class TranServiceImpl implements TranService {
     public Tran detail(String id) {
         Tran t = tranDao.detail(id);
         return t;
+    }
+
+    @Override
+    public List<TranHistory> getHistoryListByTranId(String tranId) {
+        List<TranHistory> thList = tranHistoryDao.getHistoryListByTranId(tranId);
+        return thList;
     }
 }

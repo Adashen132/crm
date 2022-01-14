@@ -88,8 +88,33 @@ request.getServerPort() + request.getContextPath() + "/";
                         }
                     }, 100);
                 });
+		//在页面加载完毕后，展现交易历史列表
+		showHistoryList();
 	});
-	
+	function showHistoryList(){
+		$.ajax({
+			url : "workbench/transaction/getHistoryListByTranId.do",
+			data : {
+				"tranId" : "${t.id}"
+			},
+			type : "get",
+			dataType : "json",
+			success : function (data) {
+				var html = "";
+				$.each(data,function (i,n) {
+					html += '<tr>';
+					html += '<td>'+n.stage+'</td>';
+					html += '<td>'+n.money+'</td>';
+					html += '<td>'+n.possibility+'</td>';
+					html += '<td>'+n.expectedDate+'</td>';
+					html += '<td>'+n.createTime+'</td>';
+					html += '<td>'+n.createBy+'</td>';
+					html += '</tr>';
+				})
+				$("#tranHistoryBody").html(html);
+			}
+		})
+	}
 	
 	
 </script>
@@ -167,7 +192,7 @@ request.getServerPort() + request.getContextPath() + "/";
 			<div style="width: 300px; color: gray;">类型</div>
 			<div style="width: 300px;position: relative; left: 200px; top: -20px;"><b>${t.type}</b></div>
 			<div style="width: 300px;position: relative; left: 450px; top: -40px; color: gray;">可能性</div>
-			<div style="width: 300px;position: relative; left: 650px; top: -60px;"><b>90</b></div>
+			<div style="width: 300px;position: relative; left: 650px; top: -60px;"><b>${t.possibility}</b></div>
 			<div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -60px;"></div>
 			<div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -60px; left: 450px;"></div>
 		</div>
@@ -272,7 +297,7 @@ request.getServerPort() + request.getContextPath() + "/";
 			</div>
 			<div style="position: relative;top: 0px;">
 				<table id="activityTable" class="table table-hover" style="width: 900px;">
-					<thead>
+					<thead >
 						<tr style="color: #B3B3B3;">
 							<td>阶段</td>
 							<td>金额</td>
@@ -282,31 +307,31 @@ request.getServerPort() + request.getContextPath() + "/";
 							<td>创建人</td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>资质审查</td>
-							<td>5,000</td>
-							<td>10</td>
-							<td>2017-02-07</td>
-							<td>2016-10-10 10:10:10</td>
-							<td>zhangsan</td>
-						</tr>
-						<tr>
-							<td>需求分析</td>
-							<td>5,000</td>
-							<td>20</td>
-							<td>2017-02-07</td>
-							<td>2016-10-20 10:10:10</td>
-							<td>zhangsan</td>
-						</tr>
-						<tr>
-							<td>谈判/复审</td>
-							<td>5,000</td>
-							<td>90</td>
-							<td>2017-02-07</td>
-							<td>2017-02-09 10:10:10</td>
-							<td>zhangsan</td>
-						</tr>
+					<tbody id="tranHistoryBody">
+<%--						<tr>--%>
+<%--							<td>资质审查</td>--%>
+<%--							<td>5,000</td>--%>
+<%--							<td>10</td>--%>
+<%--							<td>2017-02-07</td>--%>
+<%--							<td>2016-10-10 10:10:10</td>--%>
+<%--							<td>zhangsan</td>--%>
+<%--						</tr>--%>
+<%--						<tr>--%>
+<%--							<td>需求分析</td>--%>
+<%--							<td>5,000</td>--%>
+<%--							<td>20</td>--%>
+<%--							<td>2017-02-07</td>--%>
+<%--							<td>2016-10-20 10:10:10</td>--%>
+<%--							<td>zhangsan</td>--%>
+<%--						</tr>--%>
+<%--						<tr>--%>
+<%--							<td>谈判/复审</td>--%>
+<%--							<td>5,000</td>--%>
+<%--							<td>90</td>--%>
+<%--							<td>2017-02-07</td>--%>
+<%--							<td>2017-02-09 10:10:10</td>--%>
+<%--							<td>zhangsan</td>--%>
+<%--						</tr>--%>
 					</tbody>
 				</table>
 			</div>
